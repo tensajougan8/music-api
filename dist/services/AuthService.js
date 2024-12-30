@@ -67,14 +67,12 @@ let AuthService = class AuthService {
             // Hash password
             const hashedPassword = yield (0, bcrypt_1.hash)(password, this.SALT_ROUNDS);
             const adminUser = yield this.userRepository.find();
-            console.log(adminUser.length <= 0 ? User_1.UserRole.ADMIN : User_1.UserRole.VIEWER);
             // Create user
             const user = this.userRepository.create({
                 email,
                 passwordHash: hashedPassword,
                 role: adminUser.length <= 0 ? User_1.UserRole.ADMIN : User_1.UserRole.VIEWER
             });
-            console.log(user);
             yield this.userRepository.save(user);
         });
     }
