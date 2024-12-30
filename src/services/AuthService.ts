@@ -60,7 +60,7 @@ export class AuthService {
     const user = this.userRepository.create({
       email,
       passwordHash: hashedPassword,
-      role: !adminUser ? UserRole.ADMIN : UserRole.VIEWER
+      role: adminUser.length <= 0 ? UserRole.ADMIN : UserRole.VIEWER
     });
 
     await this.userRepository.save(user);
