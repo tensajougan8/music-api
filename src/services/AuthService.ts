@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 import { compare, hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { ApiError } from "../middleware/error.middleware";
-import { User } from "../entities/User";
+import { User, UserRole } from "../entities/User";
 import { Session } from "../entities/Session";
 import { inject, injectable } from "tsyringe";
 
@@ -54,10 +54,13 @@ export class AuthService {
     // Hash password
     const hashedPassword = await hash(password, this.SALT_ROUNDS);
 
+    const adminUser = await this.userRepository.find();
+
     // Create user
     const user = this.userRepository.create({
       email,
       passwordHash: hashedPassword,
+      role: !adminUser ? UserRole.ADMIN : UserRole.VIEWER
     });
 
     await this.userRepository.save(user);
