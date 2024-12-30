@@ -37,23 +37,19 @@ let AuthService = class AuthService {
     }
     login(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Find user by email
             const user = yield this.userRepository.findOne({
                 where: { email },
             });
             if (!user) {
                 throw new error_middleware_1.ApiError(401, "Invalid credentials");
             }
-            // Compare password
             const isPasswordValid = yield (0, bcrypt_1.compare)(password, user.passwordHash);
             if (!isPasswordValid) {
                 throw new error_middleware_1.ApiError(401, "Invalid credentials");
             }
-            // Generate JWT token
             const token = (0, jsonwebtoken_1.sign)({ id: user.id, email: user.email, role: user.role }, this.JWT_SECRET, {
                 expiresIn: "24h",
             });
-            // Store token in active sessions
             const session = this.sessionRepository.create({
                 userId: user.id,
                 token,
@@ -64,10 +60,8 @@ let AuthService = class AuthService {
     }
     signup(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Hash password
             const hashedPassword = yield (0, bcrypt_1.hash)(password, this.SALT_ROUNDS);
             const adminUser = yield this.userRepository.find();
-            // Create user
             const user = this.userRepository.create({
                 email,
                 passwordHash: hashedPassword,
@@ -78,7 +72,6 @@ let AuthService = class AuthService {
     }
     logout(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Remove all active sessions for user
             yield this.sessionRepository.delete({ userId });
         });
     }

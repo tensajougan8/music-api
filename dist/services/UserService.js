@@ -84,16 +84,13 @@ let UserService = class UserService {
     }
     addUser(adminId, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Verify admin user
             const admin = yield this.userRepository.findOne({ where: { id: adminId } });
             if (!admin || admin.role !== User_1.UserRole.ADMIN) {
                 throw new error_middleware_1.ApiError(403, "Forbidden Access");
             }
-            // Check if role is valid
             if (data.role === User_1.UserRole.ADMIN) {
                 throw new error_middleware_1.ApiError(403, "Cannot create admin users");
             }
-            // Check if email exists
             const existingUser = yield this.userRepository.findOne({
                 where: { email: data.email },
             });
@@ -107,17 +104,14 @@ let UserService = class UserService {
     }
     deleteUser(adminId, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Verify admin user
             const admin = yield this.userRepository.findOne({ where: { id: adminId } });
             if (!admin || admin.role !== User_1.UserRole.ADMIN) {
                 throw new error_middleware_1.ApiError(403, "Forbidden Access");
             }
-            // Find user to delete
             const user = yield this.userRepository.findOne({ where: { id: userId } });
             if (!user) {
                 throw new error_middleware_1.ApiError(404, "User not found.");
             }
-            // Prevent deleting admin users
             if (user.role === User_1.UserRole.ADMIN) {
                 throw new error_middleware_1.ApiError(403, "Cannot delete admin users");
             }
@@ -130,12 +124,10 @@ let UserService = class UserService {
             if (!user) {
                 throw new error_middleware_1.ApiError(404, "User not found.");
             }
-            // Verify old password
             const isValidPassword = yield bcrypt_1.default.compare(data.old_password, user.passwordHash);
             if (!isValidPassword) {
                 throw new error_middleware_1.ApiError(400, "Invalid old password");
             }
-            // Update password
             user.passwordHash = yield bcrypt_1.default.hash(data.new_password, 10);
             yield this.userRepository.save(user);
         });

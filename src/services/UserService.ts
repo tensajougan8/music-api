@@ -71,18 +71,16 @@ export class UserService {
     adminId: string,
     data: { email: string; password: string; role: UserRole }
   ) {
-    // Verify admin user
+
     const admin = await this.userRepository.findOne({ where: { id: adminId } });
     if (!admin || admin.role !== UserRole.ADMIN) {
       throw new ApiError(403, "Forbidden Access");
     }
 
-    // Check if role is valid
     if (data.role === UserRole.ADMIN) {
       throw new ApiError(403, "Cannot create admin users");
     }
 
-    // Check if email exists
     const existingUser = await this.userRepository.findOne({
       where: { email: data.email },
     });
@@ -101,19 +99,18 @@ export class UserService {
   }
 
   async deleteUser(adminId: string, userId: string) {
-    // Verify admin user
+  
     const admin = await this.userRepository.findOne({ where: { id: adminId } });
     if (!admin || admin.role !== UserRole.ADMIN) {
       throw new ApiError(403, "Forbidden Access");
     }
 
-    // Find user to delete
+
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new ApiError(404, "User not found.");
     }
 
-    // Prevent deleting admin users
     if (user.role === UserRole.ADMIN) {
       throw new ApiError(403, "Cannot delete admin users");
     }
@@ -130,7 +127,7 @@ export class UserService {
       throw new ApiError(404, "User not found.");
     }
 
-    // Verify old password
+
     const isValidPassword = await bcrypt.compare(
       data.old_password,
       user.passwordHash
@@ -138,8 +135,6 @@ export class UserService {
     if (!isValidPassword) {
       throw new ApiError(400, "Invalid old password");
     }
-
-    // Update password
     user.passwordHash = await bcrypt.hash(data.new_password, 10);
     await this.userRepository.save(user);
   }

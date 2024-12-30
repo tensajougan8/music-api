@@ -23,12 +23,9 @@ const UserController_1 = require("./controllers/UserController");
 const db_1 = require("./db");
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Initialize database
         yield db_1.AppDataSource.initialize();
         console.log("Database connected!");
-        // Configure DI container
         (0, di_1.configureContainer)();
-        // Resolve controllers from DI container
         const authController = tsyringe_1.container.resolve(AuthController_1.AuthController);
         const artistController = tsyringe_1.container.resolve(ArtistController_1.ArtistController);
         const albumController = tsyringe_1.container.resolve(AlbumController_1.AlbumController);

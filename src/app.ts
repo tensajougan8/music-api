@@ -22,25 +22,21 @@ export const createApp = (
   trackController: TrackController,
   favoriteController: FavoriteController,
   userController: UserController
-  // Add other controllers here
+
 ) => {
   const app = express();
-
-  // Middleware
   app.use(helmet());
   app.use(cors());
   app.use(express.json());
 
-  // Routes
-  app.use("/api/v1/auth", createAuthRoutes(authController));
+
+  app.use("/api/v1", createAuthRoutes(authController));
   app.use("/api/v1/artists", createArtistRoutes(artistController));
   app.use("/api/v1/albums", createAlbumRoutes(albumController));
   app.use("/api/v1/tracks", createTrackRoutes(trackController));
   app.use("/api/v1/favorites", createFavoriteRoutes(favoriteController));
   app.use("/api/v1/users", createUserRoutes(userController));
-  // Add other routes here
-
-  // Error handling
+ 
   app.use(errorHandler);
 
   return app;

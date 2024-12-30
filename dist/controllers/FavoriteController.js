@@ -32,13 +32,12 @@ let FavoriteController = class FavoriteController {
         this.getFavorites = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
-                const userId = (_a = req.body.user) === null || _a === void 0 ? void 0 : _a.id; // Assuming user object is attached by auth middleware
+                const userId = (_a = req.body.user) === null || _a === void 0 ? void 0 : _a.id;
                 if (!userId) {
                     throw new error_middleware_1.ApiError(401, "Unauthorized Access");
                 }
                 const category = req.params.category;
                 const { limit, offset } = req.query;
-                // Validate category
                 if (!["artist", "album", "track"].includes(category)) {
                     throw new error_middleware_1.ApiError(400, "Invalid category. Must be 'artist', 'album', or 'track'");
                 }
@@ -70,11 +69,9 @@ let FavoriteController = class FavoriteController {
                     throw new error_middleware_1.ApiError(401, "Unauthorized Access");
                 }
                 const { category, item_id } = req.body;
-                // Validate required fields
                 if (!category || !item_id) {
                     throw new error_middleware_1.ApiError(400, "Category and item_id are required");
                 }
-                // Validate category
                 if (!["artist", "album", "track"].includes(category)) {
                     throw new error_middleware_1.ApiError(400, "Invalid category. Must be 'artist', 'album', or 'track'");
                 }

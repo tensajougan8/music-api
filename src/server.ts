@@ -16,14 +16,11 @@ import { AppDataSource } from "./db";
 
 const startServer = async () => {
   try {
-    // Initialize database
     await AppDataSource.initialize();
     console.log("Database connected!");
 
-    // Configure DI container
     configureContainer();
 
-    // Resolve controllers from DI container
     const authController = container.resolve(AuthController);
     const artistController = container.resolve(ArtistController);
     const albumController = container.resolve(AlbumController);

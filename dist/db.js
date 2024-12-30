@@ -21,7 +21,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     url: process.env.DB_URL ||
         "postgresql://music_7ny4_user:n7ZIxQOCnuqDVa5wQ4jwBPgG3JenOYfy@dpg-ctp96pogph6c73dbnb9g-a/music_7ny4",
-    entities: [User_1.User, Track_1.Track, Album_1.Album, Session_1.Session, Favorite_1.Favorite, Artist_1.Artist], // Use direct entity references
+    entities: [User_1.User, Track_1.Track, Album_1.Album, Session_1.Session, Favorite_1.Favorite, Artist_1.Artist],
     synchronize: true,
     logging: true,
 });

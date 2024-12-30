@@ -24,7 +24,6 @@ export class Favorite {
   @CreateDateColumn()
   created_at!: Date;
 
-  // Optional relations for easier data retrieval
   @ManyToOne(() => Artist, { nullable: true })
   artist!: Artist;
 

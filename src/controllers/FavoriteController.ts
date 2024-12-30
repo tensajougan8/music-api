@@ -13,7 +13,7 @@ export class FavoriteController {
    */
   getFavorites = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.body.user?.id; // Assuming user object is attached by auth middleware
+      const userId = req.body.user?.id; 
       if (!userId) {
         throw new ApiError(401, "Unauthorized Access");
       }
@@ -21,7 +21,7 @@ export class FavoriteController {
       const category = req.params.category;
       const { limit, offset } = req.query;
 
-      // Validate category
+    
       if (!["artist", "album", "track"].includes(category)) {
         throw new ApiError(
           400,
@@ -59,12 +59,11 @@ export class FavoriteController {
 
       const { category, item_id } = req.body;
 
-      // Validate required fields
       if (!category || !item_id) {
         throw new ApiError(400, "Category and item_id are required");
       }
 
-      // Validate category
+      
       if (!["artist", "album", "track"].includes(category)) {
         throw new ApiError(
           400,

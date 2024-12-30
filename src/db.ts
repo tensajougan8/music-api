@@ -21,7 +21,7 @@ export const AppDataSource = new DataSource({
   url:
     process.env.DB_URL ||
     "postgresql://music_7ny4_user:n7ZIxQOCnuqDVa5wQ4jwBPgG3JenOYfy@dpg-ctp96pogph6c73dbnb9g-a/music_7ny4",
-  entities: [User, Track, Album, Session, Favorite, Artist], // Use direct entity references
+  entities: [User, Track, Album, Session, Favorite, Artist], 
   synchronize: true,
   logging: true,
 });

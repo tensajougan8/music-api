@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateLoginRequest = exports.validateSignupRequest = void 0;
 const joi_1 = __importDefault(require("joi"));
 const error_middleware_1 = require("./error.middleware");
-// Define the Joi schema for email and password
 const registerSchema = joi_1.default.object({
     email: joi_1.default.string().email().required().messages({
         "string.email": "Invalid email format",
@@ -35,7 +34,6 @@ const loginSchema = joi_1.default.object({
         "any.required": "Password is required",
     }),
 });
-// Middleware to validate the request
 const validateSignupRequest = (req, res, next) => {
     const { error } = registerSchema.validate(req.body, { abortEarly: false });
     if (error) {

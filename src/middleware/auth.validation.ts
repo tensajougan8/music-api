@@ -2,7 +2,6 @@ import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 import { ApiError } from "./error.middleware";
 
-// Define the Joi schema for email and password
 const registerSchema = Joi.object({
   email: Joi.string().email().required().messages({
     "string.email": "Invalid email format",
@@ -38,7 +37,6 @@ const loginSchema = Joi.object({
   }),
 });
 
-// Middleware to validate the request
 export const validateSignupRequest = (
   req: Request,
   res: Response,

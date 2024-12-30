@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string): Promise<string> {
-    // Find user by email
+ 
     const user = await this.userRepository.findOne({
       where: { email },
     });
@@ -28,18 +28,18 @@ export class AuthService {
       throw new ApiError(401, "Invalid credentials");
     }
 
-    // Compare password
+ 
     const isPasswordValid = await compare(password, user.passwordHash);
     if (!isPasswordValid) {
       throw new ApiError(401, "Invalid credentials");
     }
 
-    // Generate JWT token
+
     const token = sign({ id: user.id, email: user.email, role:user.role }, this.JWT_SECRET, {
       expiresIn: "24h",
     });
 
-    // Store token in active sessions
+  
     const session = this.sessionRepository.create({
       userId: user.id,
       token,
@@ -51,12 +51,10 @@ export class AuthService {
 
   async signup(email: string, password: string): Promise<void> {
 
-    // Hash password
     const hashedPassword = await hash(password, this.SALT_ROUNDS);
 
     const adminUser = await this.userRepository.find();
 
-    // Create user
     const user = this.userRepository.create({
       email,
       passwordHash: hashedPassword,
@@ -67,7 +65,7 @@ export class AuthService {
   }
 
   async logout(userId: string): Promise<void> {
-    // Remove all active sessions for user
+  
     await this.sessionRepository.delete({ userId });
   }
 
