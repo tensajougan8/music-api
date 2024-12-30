@@ -27,7 +27,7 @@ const createApp = (authController, artistController, albumController, trackContr
     app.use("/api/v1/artists", (0, artist_routes_1.createArtistRoutes)(artistController));
     app.use("/api/v1/albums", (0, album_routes_1.createAlbumRoutes)(albumController));
     app.use("/api/v1/tracks", (0, track_routes_1.createTrackRoutes)(trackController));
-    app.use("/api/v1/favorite", (0, favorite_routes_1.createFavoriteRoutes)(favoriteController));
+    app.use("/api/v1/favorites", (0, favorite_routes_1.createFavoriteRoutes)(favoriteController));
     app.use("/api/v1/users", (0, user_routes_1.createUserRoutes)(userController));
     // Add other routes here
     // Error handling
