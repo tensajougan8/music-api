@@ -26,7 +26,6 @@ export const configureContainer = () => {
     container.register("UserRepository", {
       useFactory: () => AppDataSource.getRepository(User),
     });
-
     
     container.register("SessionRepository", {
       useFactory: () => AppDataSource.getRepository(Session),
