@@ -26,6 +26,7 @@ const typeorm_1 = require("typeorm");
 const bcrypt_1 = require("bcrypt");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const error_middleware_1 = require("../middleware/error.middleware");
+const User_1 = require("../entities/User");
 const tsyringe_1 = require("tsyringe");
 let AuthService = class AuthService {
     constructor(userRepository, sessionRepository) {
@@ -65,10 +66,12 @@ let AuthService = class AuthService {
         return __awaiter(this, void 0, void 0, function* () {
             // Hash password
             const hashedPassword = yield (0, bcrypt_1.hash)(password, this.SALT_ROUNDS);
+            const adminUser = yield this.userRepository.find();
             // Create user
             const user = this.userRepository.create({
                 email,
                 passwordHash: hashedPassword,
+                role: !adminUser ? User_1.UserRole.ADMIN : User_1.UserRole.VIEWER
             });
             yield this.userRepository.save(user);
         });
